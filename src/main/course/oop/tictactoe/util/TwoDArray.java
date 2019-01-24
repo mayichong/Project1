@@ -8,30 +8,50 @@ package main.course.oop.tictactoe.util;
  * 
  *
  */
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
+import java.util.Set;
 public class TwoDArray {
-	
-	
-	public TwoDArray(int rows, int cols, int defaultVal){
+	int [][] newArray;
+    int globalRow;
+    int globalCol;
+    int globalDefaultValue;
+    int countOfDefault;
+    public TwoDArray(int rows, int cols, int defaultVal){
 		/*TODO - Create a 2D integer array consisting of 
 		 * the number of rows and columns given. Initialize 
 		 * the array by setting each int to be the defaulVal. 
 		 * */
+		newArray = new int[rows][cols];
+        globalRow = rows;
+        globalCol = cols;
+        globalDefaultValue = defaultVal;
+		for (int i = 0;i<rows;i++){
+            System.out.println("\n");
+			for (int j = 0;j<cols;j++){
+				newArray [i][j] = defaultVal;
+                System.out.print(newArray[i][j]+"\t");
+			}
+		}
+        countOfDefault = globalRow*globalCol;
 	}
 	
 	public void initArray(int defaultVal) {
-		/*TODO - (Re)Initialize the array by 
-		 * setting each int to be the defaulVal 
-		 */
-		
+        for (int i = 0;i<globalRow;i++){
+            for (int j = 0;j<globalCol;j++){
+                newArray [i][j] = defaultVal;
+            }
+        }
 	}
 	
-	public String insertInt(int row, int col, int val) {
+    public String insertInt(int row, int col, int val) {
 		/*TODO - "Insert" based on the following conditions:
 		 * 1. The location [row][col] is still set to the default value
-		 * 		-return "Success! (val) was inserted.
+		 * 		-return "Success! (val) was inserted."
 		 * 
 		 * 2. The location [row][col] is no longer the default value
-		 * 		-return "Failure: (row), (col) is not empty.
+		 * 		-return "Failure: (row), (col) is not empty."
 		 * 
 		 * 3. val is the default value; 
 		 * 		-return "Failure: (val) is not allowed."
@@ -39,6 +59,16 @@ public class TwoDArray {
 		 * Note: Print the int value in place of (). 
 		 * e.g., replace (val) with val.
 		 */
+        
+        if (val == globalDefaultValue){
+            return ("Failure: " + val + " is not allowed.");
+            
+        }else if (newArray[row][col] != globalDefaultValue){
+            return ("Failure: " + row + ", " + col + " is not empty.");
+        }else if (newArray[row][col] == globalDefaultValue){
+            newArray[row][col] = val;
+            return ("Success! " + val + " was inserted.");
+        }
 		return "Not implemented";
 	}
 	
@@ -47,19 +77,18 @@ public class TwoDArray {
 		 * 
 		 */
 		
-		return 0;
+		return newArray [row][col];
 	}
 	
 	public String getArrayDisplay() {
-		/*TODO - Create a 2D display of the Array
-		 * e.g. 
-		 * 	1	0	1
-		 *  0	1	0
-		 *  0	1	1
-		 * 
-		 */
-		
-		return "Not implemented";
+        String dis = " ";
+		for (int i = 0;i<globalRow;i++){
+            dis = dis + "\n";
+            for (int j = 0;j<globalCol;j++){
+                dis = dis + Integer.toString(newArray [i][j]) + "\t";
+            }
+        }
+		return dis;
 	}
 	
 	public String getArrayDetails() {
@@ -74,8 +103,31 @@ public class TwoDArray {
 		 * 			)
 		 * 
 		 */
-		
-		return "Not implemented";
+        String detail = "\n# rows: " + globalRow + "\n# columns: " + globalCol + "\n" + "Value and count of each:\n";
+        
+		String converted = "";
+		for (int i = 0;i<globalRow;i++){
+			for (int j = 0;j<globalCol;j++){
+				converted = converted + newArray[i][j];
+			}
+		}
+		Map<Character, Integer> charMapCount = new HashMap<>();
+
+		for (Character c : converted.toCharArray()){
+			if (charMapCount.containsKey(c)){
+				charMapCount.put(c,charMapCount.get(c) + 1);
+			}else{
+				charMapCount.put(c,1);
+			}
+		}
+
+		String test = "\n";
+		for (Character value: charMapCount.keySet()){
+			test = test + "value: " + value + " count: " + charMapCount.get(value) + "\n";
+		}
+
+		test = detail + test;
+		return test;	
 	}		
 
 }
